@@ -6,6 +6,15 @@
 <title>Полный учебник по GitHub — от первого коммита до CI/CD</title>
 <meta name="description" content="Подробный учебник по работе с GitHub: репозитории, ветки, pull request, issues, Actions, Pages, Codespaces, Copilot и все остальные инструменты платформы.">
 <link rel="stylesheet" href="styles.css">
+<script>
+/* Ранняя загрузка темы и размера шрифта — до отрисовки, чтобы не мигало */
+try {
+  var _fs = localStorage.getItem('ghbook-fs');
+  if (_fs) document.documentElement.setAttribute('data-fs', _fs);
+  var _t = localStorage.getItem('ghbook-theme');
+  if (_t) document.documentElement.setAttribute('data-theme', _t);
+} catch (e) {}
+</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23181717' d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8'/></svg>">
 </head>
 <body>
@@ -24,6 +33,11 @@
     <div class="search-results" id="searchResults"></div>
   </div>
   <div class="header-spacer"></div>
+  <div class="font-controls" role="group" aria-label="Размер шрифта">
+    <button id="fontMinus" title="Уменьшить шрифт" aria-label="Уменьшить шрифт">A−</button>
+    <button id="fontReset" title="Обычный размер" aria-label="Обычный размер шрифта">A</button>
+    <button id="fontPlus" title="Увеличить шрифт" aria-label="Увеличить шрифт">A+</button>
+  </div>
   <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">☾</button>
   <a class="gh-link" href="https://github.com/zigorminsk-debug/githab-books" target="_blank" rel="noopener">
     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg>
@@ -39,31 +53,60 @@
 <nav class="sidebar" id="sidebar">
   <p class="side-title">Содержание</p>
   <ul id="tocList">
-    <li><a href="#intro">1. Что такое GitHub</a></li>
-    <li><a href="#account">2. Аккаунт и настройка</a></li>
-    <li><a href="#git-install">3. Установка Git</a></li>
-    <li><a href="#git-basics">4. Основы Git</a></li>
-    <li><a href="#remotes">5. Удалённые репозитории и SSH</a></li>
-    <li><a href="#repos">6. Репозитории на GitHub</a></li>
-    <li><a href="#branches">7. Ветки</a></li>
-    <li><a href="#merge-conflicts">8. Конфликты слияния</a></li>
-    <li><a href="#pull-requests">9. Pull Requests</a></li>
-    <li><a href="#issues">10. Issues</a></li>
-    <li><a href="#projects">11. Projects</a></li>
-    <li><a href="#actions">12. GitHub Actions</a></li>
-    <li><a href="#pages">13. GitHub Pages</a></li>
-    <li><a href="#releases">14. Releases и Tags</a></li>
-    <li><a href="#wiki-discussions">15. Wiki и Discussions</a></li>
-    <li><a href="#codespaces">16. Codespaces</a></li>
-    <li><a href="#copilot">17. GitHub Copilot</a></li>
-    <li><a href="#security">18. Безопасность</a></li>
-    <li><a href="#cli">19. GitHub CLI</a></li>
-    <li><a href="#desktop">20. Desktop и мобильные</a></li>
-    <li><a href="#profile-orgs">21. Профиль и организации</a></li>
-    <li><a href="#markdown">22. Markdown на GitHub</a></li>
-    <li><a href="#api-webhooks">23. API и Webhooks</a></li>
-    <li><a href="#cheatsheet">24. Шпаргалка команд</a></li>
-    <li><a href="#glossary">25. Глоссарий</a></li>
+    <li class="toc-group"><details open><summary>🌱 Основы</summary>
+      <ul>
+        <li><a href="#intro">1. Что такое GitHub</a></li>
+        <li><a href="#account">2. Аккаунт и настройка</a></li>
+        <li><a href="#git-install">3. Установка Git</a></li>
+        <li><a href="#git-basics">4. Основы Git</a></li>
+        <li><a href="#remotes">5. Remotes и SSH</a></li>
+      </ul>
+    </details></li>
+    <li class="toc-group"><details open><summary>💻 Работа с кодом</summary>
+      <ul>
+        <li><a href="#repos">6. Репозитории</a></li>
+        <li><a href="#branches">7. Ветки</a></li>
+        <li><a href="#merge-conflicts">8. Конфликты</a></li>
+        <li><a href="#pull-requests">9. Pull Requests</a></li>
+        <li><a href="#code-review">10. Ревью и CODEOWNERS</a></li>
+      </ul>
+    </details></li>
+    <li class="toc-group"><details open><summary>🐛 Командная работа</summary>
+      <ul>
+        <li><a href="#issues">11. Issues</a></li>
+        <li><a href="#projects">12. Projects</a></li>
+      </ul>
+    </details></li>
+    <li class="toc-group"><details open><summary>⚙️ Автоматизация</summary>
+      <ul>
+        <li><a href="#actions">13. GitHub Actions</a></li>
+        <li><a href="#actions-advanced">14. Actions: кэш и раннеры</a></li>
+        <li><a href="#pages">15. GitHub Pages</a></li>
+        <li><a href="#releases">16. Releases и Tags</a></li>
+        <li><a href="#packages">17. GitHub Packages</a></li>
+      </ul>
+    </details></li>
+    <li class="toc-group"><details open><summary>🧰 Инструменты</summary>
+      <ul>
+        <li><a href="#wiki-discussions">18. Wiki и Discussions</a></li>
+        <li><a href="#codespaces">19. Codespaces</a></li>
+        <li><a href="#copilot">20. Copilot</a></li>
+        <li><a href="#security">21. Безопасность</a></li>
+        <li><a href="#cli">22. GitHub CLI</a></li>
+        <li><a href="#desktop">23. Desktop и мобильные</a></li>
+      </ul>
+    </details></li>
+    <li class="toc-group"><details open><summary>📚 Продвинутым</summary>
+      <ul>
+        <li><a href="#profile-orgs">24. Профиль и организации</a></li>
+        <li><a href="#markdown">25. Markdown (GFM)</a></li>
+        <li><a href="#api-webhooks">26. API и Webhooks</a></li>
+        <li><a href="#git-advanced">27. Продвинутый Git</a></li>
+        <li><a href="#opensource">28. Open Source</a></li>
+        <li><a href="#cheatsheet">29. Шпаргалка</a></li>
+        <li><a href="#glossary">30. Глоссарий</a></li>
+      </ul>
+    </details></li>
   </ul>
 </nav>
 
@@ -73,7 +116,7 @@
 <!-- ======= HERO ======= -->
 <div class="hero" id="top">
   <div class="hero-badges">
-    <span class="badge blue">25 разделов</span>
+    <span class="badge blue">30 разделов</span>
     <span class="badge purple">От новичка до продвинутого</span>
     <span class="badge green">Собирается автоматически через Actions</span>
   </div>
@@ -582,13 +625,77 @@ gh pr checks 12</code></pre>
 
   <div class="page-nav">
     <a href="#merge-conflicts"><span>← Назад</span>8. Конфликты</a>
-    <a href="#issues" class="next">Дальше: Issues <span>→ 10. Issues</span></a>
+    <a href="#issues" class="next">Дальше: ревью кода <span>→ 10. Ревью кода</span></a>
   </div>
 </section>
 
-<!-- ======= 10. ISSUES ======= -->
+<!-- ======= 10. РЕВЬЮ КОДА И CODEOWNERS ======= -->
+<section id="code-review">
+  <h2 class="section-title"><span class="sec-num">10</span> Ревью кода и CODEOWNERS</h2>
+
+  <p><strong>Code review</strong> — чтение изменений коллегами до слияния. Это не придирки, а главный инструмент качества: ловит баги до прода, распространяет знание о коде по команде и держит стиль единым.</p>
+
+  <h3>Как оформить PR, чтобы его хотелось ревьюить</h3>
+  <ul>
+    <li><strong>Маленький размер</strong> — до ~400 строк диффа. PR на 2000 строк либо ревьюят неделями, либо «смотрят по диагонали»;</li>
+    <li>Одна логическая задача на один PR;</li>
+    <li>Описание: что изменилось, зачем, как проверить; скриншоты или гифки для изменений UI;</li>
+    <li>Само-ревью: перечитайте свой дифф глазами ревьюера до отправки — половину замечаний снимете сами;</li>
+    <li>Большой PR по объективным причинам — режьте на части или приложите разбор структуры в описание.</li>
+  </ul>
+
+  <h3>Язык комментариев</h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Префикс</th><th>Смысл</th><th>Блокирует мерж?</th></tr>
+    <tr><td><code>nit:</code></td><td>Мелочь: стиль, имя переменной</td><td>Нет</td></tr>
+    <tr><td><code>question:</code></td><td>Уточнение для понимания</td><td>Нет</td></tr>
+    <tr><td><code>suggestion:</code></td><td>Предложение альтернативы (применяется кнопкой «Apply suggestion»)</td><td>Нет</td></tr>
+    <tr><td><code>blocking:</code></td><td>Обязательно исправить: баг, уязвимость</td><td>Да</td></tr>
+  </table>
+  </div>
+
+  <div class="callout tip"><div class="co-title">✅ Правило ревьюера</div>
+    <p>Критикуйте код, а не автора: «здесь может упасть на пустом вводе» вместо «ты опять ничего не проверил». Вопросы («что будет, если…») задают тон сотрудничества, а не экзамена.</p>
+  </div>
+
+  <h3>CODEOWNERS: кто отвечает за путь</h3>
+  <p>Файл <code>.github/CODEOWNERS</code> назначает владельцев кода. Когда PR затрагивает совпадающий путь, GitHub автоматически запросит ревью у указанных людей или команд.</p>
+  <pre><code><span class="cmd-comment"># .github/CODEOWNERS — последнее совпадение выигрывает</span>
+*                       @team-core
+/docs/                  @docs-writers
+/src/api/               @backend-lead
+/.github/workflows/     @devops-team
+/package.json           @frontend-lead</code></pre>
+  <p>Файл кладут в корень, в <code>.github/</code> или <code>docs/</code>. Чтобы ревью владельцев было обязательным, включите <em>Require review from Code Owners</em> в правилах защиты ветки.</p>
+
+  <h3>Настройки ревью в branch protection</h3>
+  <ul>
+    <li><strong>Require approvals</strong> — сколько подтверждений нужно (обычно 1–2);</li>
+    <li><strong>Dismiss stale pull request approvals when new commits are pushed</strong> — новый пуш сбрасывает устаревшие аппрувы;</li>
+    <li><strong>Require review from Code Owners</strong> — обязателен ревью владельца затронутого пути;</li>
+    <li><strong>Restrict who can dismiss pull request reviews</strong> — кто может снимать аппрувы.</li>
+  </ul>
+
+  <pre><code><span class="cmd-comment"># Ревью из терминала</span>
+gh pr review 12 --approve
+gh pr review 12 --request-changes --body "См. комментарии к строкам"
+gh pr edit 12 --add-reviewer @org/team
+gh pr ready 12                <span class="cmd-comment"># перевести черновик в готовый</span></code></pre>
+
+  <div class="callout note"><div class="co-title">💡 Copilot как ревьюер</div>
+    <p>В настройках репозитория Copilot можно добавить автоматическим ревьюером: он оставит первичные замечания по диффу, а люди подключатся следом.</p>
+  </div>
+
+  <div class="page-nav">
+    <a href="#pull-requests"><span>← Назад</span>9. Pull Requests</a>
+    <a href="#issues" class="next">Дальше: Issues <span>→ 11. Issues</span></a>
+  </div>
+</section>
+
+<!-- ======= 11. ISSUES ======= -->
 <section id="issues">
-  <h2 class="section-title"><span class="sec-num">10</span> Issues: задачи и баг-трекер</h2>
+  <h2 class="section-title"><span class="sec-num">11</span> Issues: задачи и баг-трекер</h2>
 
   <p><strong>Issue</strong> — универсальная карточка работы: баг, новая фича, вопрос, задача на рефакторинг. Каждому issue присваивается номер, на который можно ссылаться из любого места платформы (<code>#42</code>).</p>
 
@@ -628,14 +735,14 @@ gh issue view 42
 gh issue close 42 --comment "Исправлено в PR #57"</code></pre>
 
   <div class="page-nav">
-    <a href="#pull-requests"><span>← Назад</span>9. Pull Requests</a>
-    <a href="#projects" class="next">Дальше: Projects <span>→ 11. Projects</span></a>
+    <a href="#code-review"><span>← Назад</span>10. Ревью кода и CODEOWNERS</a>
+    <a href="#projects" class="next">Дальше: Projects <span>→ 12. Projects</span></a>
   </div>
 </section>
 
-<!-- ======= 11. PROJECTS ======= -->
+<!-- ======= 12. PROJECTS ======= -->
 <section id="projects">
-  <h2 class="section-title"><span class="sec-num">11</span> Projects: планирование и канбан</h2>
+  <h2 class="section-title"><span class="sec-num">12</span> Projects: планирование и канбан</h2>
 
   <p><strong>GitHub Projects</strong> — гибкая система планирования (новая версия, replaced старые Boards). Таблица или доска, куда можно добавить issues, PR, черновики и заметки из нескольких репозиториев сразу.</p>
 
@@ -669,14 +776,14 @@ gh issue close 42 --comment "Исправлено в PR #57"</code></pre>
 gh project item-add 1 --owner zigorminsk-debug --url https://github.com/…/issues/42</code></pre>
 
   <div class="page-nav">
-    <a href="#issues"><span>← Назад</span>10. Issues</a>
-    <a href="#actions" class="next">Дальше: GitHub Actions <span>→ 12. Actions</span></a>
+    <a href="#issues"><span>← Назад</span>11. Issues</a>
+    <a href="#actions" class="next">Дальше: GitHub Actions <span>→ 13. Actions</span></a>
   </div>
 </section>
 
-<!-- ======= 12. ACTIONS ======= -->
+<!-- ======= 13. ACTIONS ======= -->
 <section id="actions">
-  <h2 class="section-title"><span class="sec-num">12</span> GitHub Actions: CI/CD и автоматизация</h2>
+  <h2 class="section-title"><span class="sec-num">13</span> GitHub Actions: CI/CD и автоматизация</h2>
 
   <p><strong>GitHub Actions</strong> — встроенный движок автоматизации. Он запускает workflows (сценарии) по событиям: push, PR, релиз, расписание, комментарий и даже звёздочка. Именно Actions пересобирает эту страницу при каждом изменении.</p>
 
@@ -779,14 +886,100 @@ jobs:
   </div>
 
   <div class="page-nav">
-    <a href="#projects"><span>← Назад</span>11. Projects</a>
-    <a href="#pages" class="next">Дальше: GitHub Pages <span>→ 13. Pages</span></a>
+    <a href="#projects"><span>← Назад</span>12. Projects</a>
+    <a href="#actions-advanced" class="next">Дальше: Actions для продвинутых <span>→ 14. Actions+</span></a>
   </div>
 </section>
 
-<!-- ======= 13. PAGES ======= -->
+<!-- ======= 14. ACTIONS ДЛЯ ПРОДВИНУТЫХ ======= -->
+<section id="actions-advanced">
+  <h2 class="section-title"><span class="sec-num">14</span> Actions: кэш, артефакты и свои раннеры</h2>
+
+  <h3>Кэширование — главная экономия времени</h3>
+  <p>Зависимости можно закэшировать между запусками: первый прогон скачивает, следующие берут из кэша за секунды.</p>
+  <pre><code>      - uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-${{ runner.os }}-
+
+      - run: npm ci</code></pre>
+  <p><code>actions/setup-node</code> с параметром <code>cache: npm</code> делает то же одной строкой. Кэш: 10 ГБ на репозиторий, живёт 7 дней без использования.</p>
+
+  <h3>Артефакты: передача файлов между джобами</h3>
+  <pre><code>  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  test:
+    needs: build                <span class="cmd-comment"># дождаться сборки</span>
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+      - run: ls dist/</code></pre>
+
+  <h3>Лимиты бесплатных минут</h3>
+  <p>Минуты раннеров считаются с коэффициентом (для приватных репозиториев):</p>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Раннер</th><th>Коэффициент</th><th>Комментарий</th></tr>
+    <tr><td>Linux</td><td>×1</td><td>Самый дешёвый — выбирайте его по умолчанию</td></tr>
+    <tr><td>Windows</td><td>×2</td><td>Когда нужен .NET / Windows-специфика</td></tr>
+    <tr><td>macOS</td><td>×10</td><td>В основном для сборок под iOS/macOS</td></tr>
+  </table>
+  </div>
+  <p>Для публичных репозиториев Actions бесплатны без ограничений минут.</p>
+
+  <h3>Environments: защищённый деплой</h3>
+  <p><strong>Environment</strong> (Settings → Environments) — именованная среда с правилами: обязательные ревьюеры, разрешённые ветки, собственные секреты. Деплой в <code>production</code> можно заставить ждать кнопку approve у релиз-инженера.</p>
+  <pre><code>  deploy:
+    runs-on: ubuntu-latest
+    environment: production      <span class="cmd-comment"># ждёт approve, если настроено</span>
+    steps:
+      - run: ./deploy.sh
+        env:
+          TOKEN: ${{ secrets.PROD_TOKEN }}</code></pre>
+
+  <h3>Reusable workflows — общие сценарии</h3>
+  <pre><code><span class="cmd-comment"># .github/workflows/ci.yml вызывает общий workflow из другого репозитория</span>
+jobs:
+  call-node-ci:
+    uses: my-org/shared-workflows/.github/workflows/node-ci.yml@v2
+    with:
+      node-version: 20
+    secrets: inherit</code></pre>
+
+  <h3>Self-hosted раннеры</h3>
+  <p>Свои машины: <em>Settings → Actions → Runners → New self-hosted runner</em>. Нужны, когда требуется особое железо (GPU), доступ к приватной сети или дорогие лицензии.</p>
+  <div class="callout danger"><div class="co-title">🚨 Осторожно с публичными репозиториями</div>
+    <p>Self-hosted раннер на публичном репозитории опасен: любой может открыть PR с произвольным кодом, который выполнится на вашей машине. Для публичных проектов — только облачные раннеры GitHub или изолированные эфемерные раннеры.</p>
+  </div>
+
+  <h3>Отладка падающих workflow</h3>
+  <ul>
+    <li>Секрет <code>ACTIONS_STEP_DEBUG=true</code> — подробные логи шагов;</li>
+    <li>Шаг с <code>if: failure()</code> — собрать диагностику только при падении;</li>
+    <li>Экшен <code>mxschmitt/action-tmate</code> — SSH-сессия внутрь раннера для живой отладки;</li>
+    <li>Локально те же workflow гоняет <a href="https://github.com/nektos/act" target="_blank" rel="noopener">act</a> — запускает их в Docker на вашей машине.</li>
+  </ul>
+
+  <div class="page-nav">
+    <a href="#actions"><span>← Назад</span>13. GitHub Actions</a>
+    <a href="#pages" class="next">Дальше: GitHub Pages <span>→ 15. Pages</span></a>
+  </div>
+</section>
+
+<!-- ======= 15. PAGES ======= -->
 <section id="pages">
-  <h2 class="section-title"><span class="sec-num">13</span> GitHub Pages: бесплатный хостинг сайтов</h2>
+  <h2 class="section-title"><span class="sec-num">15</span> GitHub Pages: бесплатный хостинг сайтов</h2>
 
   <p><strong>GitHub Pages</strong> публикует статические файлы (HTML, CSS, JS) прямо из репозитория — бесплатно и без своего сервера. Так можно опубликовать сайт-визитку, документацию проекта или, например, страницу этого учебника.</p>
 
@@ -853,14 +1046,14 @@ jobs:
   </div>
 
   <div class="page-nav">
-    <a href="#actions"><span>← Назад</span>12. GitHub Actions</a>
-    <a href="#releases" class="next">Дальше: Releases и Tags <span>→ 14. Releases</span></a>
+    <a href="#actions-advanced"><span>← Назад</span>14. Actions: кэш и раннеры</a>
+    <a href="#releases" class="next">Дальше: Releases и Tags <span>→ 16. Releases</span></a>
   </div>
 </section>
 
-<!-- ======= 14. RELEASES ======= -->
+<!-- ======= 16. RELEASES ======= -->
 <section id="releases">
-  <h2 class="section-title"><span class="sec-num">14</span> Tags и Releases</h2>
+  <h2 class="section-title"><span class="sec-num">16</span> Tags и Releases</h2>
 
   <p><strong>Tag</strong> — метка на конкретном коммите (обычно версия: <code>v1.2.0</code>). <strong>Release</strong> — оформленная публикация на GitHub: описание релиза + прикреплённые файлы (бинарники, архивы).</p>
 
@@ -905,14 +1098,69 @@ jobs:
           files: dist/*</code></pre>
 
   <div class="page-nav">
-    <a href="#pages"><span>← Назад</span>13. GitHub Pages</a>
-    <a href="#wiki-discussions" class="next">Дальше: Wiki и Discussions <span>→ 15. Wiki</span></a>
+    <a href="#pages"><span>← Назад</span>15. Pages</a>
+    <a href="#packages" class="next">Дальше: GitHub Packages <span>→ 17. Packages</span></a>
   </div>
 </section>
 
-<!-- ======= 15. WIKI И DISCUSSIONS ======= -->
+<!-- ======= 17. GITHUB PACKAGES ======= -->
+<section id="packages">
+  <h2 class="section-title"><span class="sec-num">17</span> GitHub Packages: реестр пакетов</h2>
+
+  <p><strong>GitHub Packages</strong> — хостинг пакетов прямо рядом с кодом: npm, Maven/Gradle, NuGet, RubyGems и Docker-образы (Container registry <code>ghcr.io</code>). Пакет автоматически связан с репозиторием и наследует его видимость.</p>
+
+  <h3>Публикация npm-пакета</h3>
+  <pre><code><span class="cmd-comment"># .npmrc в корне проекта</span>
+@my-org:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}</code></pre>
+  <pre><code><span class="cmd-comment"># .github/workflows/publish.yml</span>
+name: Publish package
+on:
+  release:
+    types: [published]
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write          <span class="cmd-comment"># право публиковать пакет</span>
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com
+      - run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}</code></pre>
+
+  <h3>Docker-образы в ghcr.io</h3>
+  <pre><code>echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+docker build -t ghcr.io/my-org/my-app:1.0.0 .
+docker push ghcr.io/my-org/my-app:1.0.0</code></pre>
+
+  <h3>Что важно знать</h3>
+  <ul>
+    <li>Видимость пакета (приватный/публичный) настраивается отдельно; для установки из другого репозитория нужен PAT с правом <code>read:packages</code>;</li>
+    <li>Старые версии удаляются вручную или по политике retention;</li>
+    <li>Хранение сверх бесплатного лимита плана оплачивается за ГБ;</li>
+    <li>Страница пакета: вкладка <em>Packages</em> репозитория или ваш профиль → Packages.</li>
+  </ul>
+
+  <div class="callout tip"><div class="co-title">✅ Когда это удобно</div>
+    <p>Внутренние библиотеки компании: код приватный, пакет приватный, доступ — через те же команды GitHub. Не нужен отдельный Artifactory/Nexus на старте.</p>
+  </div>
+
+  <div class="page-nav">
+    <a href="#releases"><span>← Назад</span>16. Releases и Tags</a>
+    <a href="#wiki-discussions" class="next">Дальше: Wiki и Discussions <span>→ 18. Wiki</span></a>
+  </div>
+</section>
+
+<!-- ======= 18. WIKI И DISCUSSIONS ======= -->
 <section id="wiki-discussions">
-  <h2 class="section-title"><span class="sec-num">15</span> Wiki и Discussions</h2>
+  <h2 class="section-title"><span class="sec-num">18</span> Wiki и Discussions</h2>
 
   <h3>Wiki — документация проекта</h3>
   <p>Каждый репозиторий может иметь встроенную <strong>Wiki</strong>: страницы на Markdown, боковое меню, история правок как в git. Включается в <em>Settings → Features → Wikis</em>.</p>
@@ -938,14 +1186,14 @@ jobs:
   </div>
 
   <div class="page-nav">
-    <a href="#releases"><span>← Назад</span>14. Releases и Tags</a>
-    <a href="#codespaces" class="next">Дальше: Codespaces <span>→ 16. Codespaces</span></a>
+    <a href="#packages"><span>← Назад</span>17. Packages</a>
+    <a href="#codespaces" class="next">Дальше: Codespaces <span>→ 19. Codespaces</span></a>
   </div>
 </section>
 
-<!-- ======= 16. CODESPACES ======= -->
+<!-- ======= 19. CODESPACES ======= -->
 <section id="codespaces">
-  <h2 class="section-title"><span class="sec-num">16</span> Codespaces: облачная среда разработки</h2>
+  <h2 class="section-title"><span class="sec-num">19</span> Codespaces: облачная среда разработки</h2>
 
   <p><strong>Codespaces</strong> — готовый VS Code + настроенное окружение, работающий в облаке. Открывается в браузере за минуту, для любого репозитория, с любым компьютера.</p>
 
@@ -983,14 +1231,14 @@ jobs:
   </div>
 
   <div class="page-nav">
-    <a href="#wiki-discussions"><span>← Назад</span>15. Wiki и Discussions</a>
-    <a href="#copilot" class="next">Дальше: Copilot <span>→ 17. Copilot</span></a>
+    <a href="#wiki-discussions"><span>← Назад</span>18. Wiki и Discussions</a>
+    <a href="#copilot" class="next">Дальше: Copilot <span>→ 20. Copilot</span></a>
   </div>
 </section>
 
-<!-- ======= 17. COPILOT ======= -->
+<!-- ======= 20. COPILOT ======= -->
 <section id="copilot">
-  <h2 class="section-title"><span class="sec-num">17</span> GitHub Copilot: ИИ-напарник</h2>
+  <h2 class="section-title"><span class="sec-num">20</span> GitHub Copilot: ИИ-напарник</h2>
 
   <p><strong>Copilot</strong> — ИИ-ассистент на базе моделей OpenAI/Anthropic, встроенный в GitHub. Бесплатен для учащихся, преподавателей и мейнтейнеров популярных open-source проектов.</p>
 
@@ -1014,14 +1262,14 @@ gh copilot explain "awk '{s+=\$1} END {print s}' data.txt"</code></pre>
   </div>
 
   <div class="page-nav">
-    <a href="#codespaces"><span>← Назад</span>16. Codespaces</a>
-    <a href="#security" class="next">Дальше: безопасность <span>→ 18. Security</span></a>
+    <a href="#codespaces"><span>← Назад</span>19. Codespaces</a>
+    <a href="#security" class="next">Дальше: безопасность <span>→ 21. Security</span></a>
   </div>
 </section>
 
-<!-- ======= 18. БЕЗОПАСНОСТЬ ======= -->
+<!-- ======= 21. БЕЗОПАСНОСТЬ ======= -->
 <section id="security">
-  <h2 class="section-title"><span class="sec-num">18</span> Безопасность репозитория</h2>
+  <h2 class="section-title"><span class="sec-num">21</span> Безопасность репозитория</h2>
 
   <p>Вкладка <strong>Security</strong> в репозитории — командный центр безопасности. Большинство инструментов включены бесплатно для публичных репозиториев.</p>
 
@@ -1056,14 +1304,14 @@ updates:
   </div>
 
   <div class="page-nav">
-    <a href="#copilot"><span>← Назад</span>17. Copilot</a>
-    <a href="#cli" class="next">Дальше: GitHub CLI <span>→ 19. CLI</span></a>
+    <a href="#copilot"><span>← Назад</span>20. Copilot</a>
+    <a href="#cli" class="next">Дальше: GitHub CLI <span>→ 22. CLI</span></a>
   </div>
 </section>
 
-<!-- ======= 19. CLI ======= -->
+<!-- ======= 22. CLI ======= -->
 <section id="cli">
-  <h2 class="section-title"><span class="sec-num">19</span> GitHub CLI (gh): GitHub в терминале</h2>
+  <h2 class="section-title"><span class="sec-num">22</span> GitHub CLI (gh): GitHub в терминале</h2>
 
   <p><a href="https://cli.github.com" target="_blank" rel="noopener">GitHub CLI</a> — официальная утилита, покрывающая почти весь сайт: PR, issues, релизы, Actions, Pages — без браузера.</p>
 
@@ -1105,14 +1353,14 @@ gh api repos/zigorminsk-debug/githab-books --jq '.stargazers_count'</code></pre>
   </div>
 
   <div class="page-nav">
-    <a href="#security"><span>← Назад</span>18. Безопасность</a>
-    <a href="#desktop" class="next">Дальше: Desktop <span>→ 20. Desktop</span></a>
+    <a href="#security"><span>← Назад</span>21. Безопасность</a>
+    <a href="#desktop" class="next">Дальше: Desktop <span>→ 23. Desktop</span></a>
   </div>
 </section>
 
-<!-- ======= 20. DESKTOP И МОБИЛЬНЫЕ ======= -->
+<!-- ======= 23. DESKTOP И МОБИЛЬНЫЕ ======= -->
 <section id="desktop">
-  <h2 class="section-title"><span class="sec-num">20</span> GitHub Desktop и мобильные приложения</h2>
+  <h2 class="section-title"><span class="sec-num">23</span> GitHub Desktop и мобильные приложения</h2>
 
   <h3>GitHub Desktop</h3>
   <p><a href="https://desktop.github.com" target="_blank" rel="noopener">GitHub Desktop</a> — визуальный git-клиент для Windows/macOS для тех, кому пока удобнее кнопки вместо консоли:</p>
@@ -1130,14 +1378,14 @@ gh api repos/zigorminsk-debug/githab-books --jq '.stargazers_count'</code></pre>
   <p>Официальные приложения для iOS и Android: ревью PR с телефона, ответы на issues, слияние проверенных PR, push-уведомления. Подходит для «горячих» ситуаций: срочный ревью или approve, когда вы вне компьютера.</p>
 
   <div class="page-nav">
-    <a href="#cli"><span>← Назад</span>19. GitHub CLI</a>
-    <a href="#profile-orgs" class="next">Дальше: профиль и организации <span>→ 21. Профиль</span></a>
+    <a href="#cli"><span>← Назад</span>22. GitHub CLI</a>
+    <a href="#profile-orgs" class="next">Дальше: профиль и организации <span>→ 24. Профиль</span></a>
   </div>
 </section>
 
-<!-- ======= 21. ПРОФИЛЬ И ОРГАНИЗАЦИИ ======= -->
+<!-- ======= 24. ПРОФИЛЬ И ОРГАНИЗАЦИИ ======= -->
 <section id="profile-orgs">
-  <h2 class="section-title"><span class="sec-num">21</span> Профиль, организации и права</h2>
+  <h2 class="section-title"><span class="sec-num">24</span> Профиль, организации и права</h2>
 
   <h3>Профиль-визитка</h3>
   <p>Создайте публичный репозиторий с тем же именем, что ваш username, добавьте <code>README.md</code> — он отобразится на странице профиля. В README можно вставлять <strong>динамические картинки</strong>:</p>
@@ -1161,14 +1409,14 @@ gh api repos/zigorminsk-debug/githab-books --jq '.stargazers_count'</code></pre>
   <p>Права назначаются через <strong>teams</strong> (группы), а не по отдельным людям — так масштабируется управление доступом.</p>
 
   <div class="page-nav">
-    <a href="#desktop"><span>← Назад</span>20. Desktop и мобильные</a>
-    <a href="#markdown" class="next">Дальше: Markdown <span>→ 22. Markdown</span></a>
+    <a href="#desktop"><span>← Назад</span>23. Desktop и мобильные</a>
+    <a href="#markdown" class="next">Дальше: Markdown <span>→ 25. Markdown</span></a>
   </div>
 </section>
 
-<!-- ======= 22. MARKDOWN ======= -->
+<!-- ======= 25. MARKDOWN ======= -->
 <section id="markdown">
-  <h2 class="section-title"><span class="sec-num">22</span> Markdown на GitHub (GFM)</h2>
+  <h2 class="section-title"><span class="sec-num">25</span> Markdown на GitHub (GFM)</h2>
 
   <p>Весь текст на GitHub — README, issues, PR, комментарии — пишется в <strong>Markdown</strong> (диалект GFM — GitHub Flavored Markdown).</p>
 
@@ -1209,14 +1457,14 @@ graph LR
   </ul>
 
   <div class="page-nav">
-    <a href="#profile-orgs"><span>← Назад</span>21. Профиль и организации</a>
-    <a href="#api-webhooks" class="next">Дальше: API и Webhooks <span>→ 23. API</span></a>
+    <a href="#profile-orgs"><span>← Назад</span>24. Профиль и организации</a>
+    <a href="#api-webhooks" class="next">Дальше: API и Webhooks <span>→ 26. API</span></a>
   </div>
 </section>
 
-<!-- ======= 23. API И WEBHOOKS ======= -->
+<!-- ======= 26. API И WEBHOOKS ======= -->
 <section id="api-webhooks">
-  <h2 class="section-title"><span class="sec-num">23</span> API и Webhooks</h2>
+  <h2 class="section-title"><span class="sec-num">26</span> API и Webhooks</h2>
 
   <h3>REST API</h3>
   <p>Всё, что вы видите на сайте, доступно через <a href="https://docs.github.com/rest" target="_blank" rel="noopener">REST API</a>. Базовый адрес: <code>https://api.github.com</code>.</p>
@@ -1246,14 +1494,141 @@ curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
   </div>
 
   <div class="page-nav">
-    <a href="#markdown"><span>← Назад</span>22. Markdown</a>
-    <a href="#cheatsheet" class="next">Дальше: шпаргалка команд <span>→ 24. Шпаргалка</span></a>
+    <a href="#markdown"><span>← Назад</span>25. Markdown</a>
+    <a href="#git-advanced" class="next">Дальше: продвинутый Git <span>→ 27. Продвинутый Git</span></a>
   </div>
 </section>
 
-<!-- ======= 24. ШПАРГАЛКА ======= -->
+<!-- ======= 27. ПРОДВИНУТЫЙ GIT ======= -->
+<section id="git-advanced">
+  <h2 class="section-title"><span class="sec-num">27</span> Продвинутый Git: инструменты спасения</h2>
+
+  <h3>cherry-pick — взять чужой коммит себе</h3>
+  <pre><code><span class="cmd-comment"># Нужен конкретный фикс из другой ветки, без слияния всей ветки</span>
+git switch main
+git cherry-pick 1a2b3c4           <span class="cmd-comment"># применит этот коммит поверх main</span>
+git cherry-pick 1a2b3c4..5d6e7f   <span class="cmd-comment"># диапазон коммитов</span></code></pre>
+
+  <h3>git bisect — найти коммит, который сломал проект</h3>
+  <pre><code>git bisect start
+git bisect bad                    <span class="cmd-comment"># сейчас сломано</span>
+git bisect good v1.0.0            <span class="cmd-comment"># здесь ещё работало
+
+# Git переключает коммиты пополам, вы отвечаете:</span>
+git bisect good                   <span class="cmd-comment"># работает</span>
+git bisect bad                    <span class="cmd-comment"># сломано
+# ...виновник найдётся за log2(N) шагов, затем:</span>
+git bisect reset</code></pre>
+
+  <h3>stash — отложить работу в сторону</h3>
+  <pre><code>git stash push -m "wip: форма входа"    <span class="cmd-comment"># спрятать правки</span>
+git stash list                           <span class="cmd-comment"># стопка отложенных</span>
+git stash pop                            <span class="cmd-comment"># вернуть последние</span>
+git stash apply stash@{2}                <span class="cmd-comment"># вернуть конкретную, не удаляя</span>
+git stash branch fix/login               <span class="cmd-comment"># отложить в новую ветку</span></code></pre>
+
+  <h3>worktree — две ветки параллельно</h3>
+  <pre><code><span class="cmd-comment"># Вторая папка со второй веткой: не нужно stash'ить и переключаться</span>
+git worktree add ../project-hotfix hotfix-branch
+cd ../project-hotfix          <span class="cmd-comment"># работаем здесь, main не тронут</span>
+git worktree list
+git worktree remove ../project-hotfix</code></pre>
+
+  <h3>reflog — супергерой, спасает почти всё</h3>
+  <pre><code><span class="cmd-comment"># Уронили коммит через reset --hard? Ничего не исчезло:</span>
+git reflog
+<span class="cmd-comment"># a1b2c3d HEAD@{0}: reset: moving to HEAD~1
+# e4f5a6b HEAD@{1}: commit: важный коммит   ← вот он</span>
+git reset --hard e4f5a6b      <span class="cmd-comment"># вернуться, как будто ничего не было</span></code></pre>
+  <div class="callout tip"><div class="co-title">✅ Правило паники</div>
+    <p>Почти любое «я всё сломал» лечится через <code>git reflog</code> + <code>git reset --hard &lt;hash&gt;</code>. Потерянные коммиты живут около 90 дней. Главное — не паниковать и не наметать новых беспорядочных коммитов.</p>
+  </div>
+
+  <h3>submodules — репозиторий внутри репозитория</h3>
+  <pre><code>git submodule add https://github.com/user/lib.git libs/lib
+git clone --recurse-submodules <span class="cmd-comment"># клонировать вместе с подмодулями</span>
+git submodule update --remote    <span class="cmd-comment"># обновить подмодули до свежих версий</span></code></pre>
+
+  <h3>Типичные ошибки и лечение</h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Ситуация</th><th>Решение</th></tr>
+    <tr><td>Закоммитил не в ту ветку</td><td><code>git switch правильная</code> → <code>git cherry-pick HEAD@{1}</code>, старую ветку почистить</td></tr>
+    <tr><td>Забыл файл в последнем коммите</td><td><code>git add файл</code> → <code>git commit --amend</code> (только до пуша!)</td></tr>
+    <tr><td>Запушил секрет</td><td>Отозвать ключ → вычистить историю (<code>git filter-repo</code>) → force-push</td></tr>
+    <tr><td>Нужен пустой коммит (запустить CI)</td><td><code>git commit --allow-empty -m "chore: trigger CI"</code></td></tr>
+    <tr><td>Конфликт посреди rebase</td><td>Править файлы → <code>git add</code> → <code>git rebase --continue</code>; сдаться — <code>git rebase --abort</code></td></tr>
+    <tr><td>Удалил ветку по ошибке</td><td>Найти хеш в <code>git reflog</code> → <code>git branch имя-ветки хеш</code></td></tr>
+  </table>
+  </div>
+
+  <div class="page-nav">
+    <a href="#api-webhooks"><span>← Назад</span>26. API и Webhooks</a>
+    <a href="#opensource" class="next">Дальше: Open Source <span>→ 28. Open Source</span></a>
+  </div>
+</section>
+
+<!-- ======= 28. OPEN SOURCE ======= -->
+<section id="opensource">
+  <h2 class="section-title"><span class="sec-num">28</span> Open Source: ваш первый вклад</h2>
+
+  <p>Contributing в чужие проекты — быстрый способ расти: код-ревью от опытных мейнтейнеров, реальный код в портфолио, связи в индустрии. GitHub создан, чтобы это было просто: fork → ветка → PR.</p>
+
+  <h3>Как выбрать проект для первого вклада</h3>
+  <ul>
+    <li>Ищите метки <code>good first issue</code> и <code>help wanted</code> — их ставят специально для новичков;</li>
+    <li>Проверьте живость: свежие коммиты, скорость ответов на issues и PR;</li>
+    <li>Прочитайте <code>CONTRIBUTING.md</code>; если его нет — это тревожный знак;</li>
+    <li>Берите инструмент, которым сами пользуетесь, — вы знаете его боль изнутри.</li>
+  </ul>
+  <p>Где искать: <a href="https://github.com/topics/good-first-issue" target="_blank" rel="noopener">github.com/topics/good-first-issue</a> · <a href="https://goodfirstissue.dev" target="_blank" rel="noopener">goodfirstissue.dev</a> · <a href="https://up-for-grabs.net" target="_blank" rel="noopener">up-for-grabs.net</a>.</p>
+
+  <h3>Флоу первого PR (вы его уже знаете!)</h3>
+  <pre><code><span class="cmd-comment"># 1. Форк на GitHub, затем клон:</span>
+gh repo fork user/project --clone
+cd project
+
+<span class="cmd-comment"># 2. Ветка под задачу</span>
+git switch -c fix/typo-in-readme
+
+<span class="cmd-comment"># 3. Правки, коммит, пуш в свой форк</span>
+git commit -m "docs: исправить опечатку в разделе установки"
+git push -u origin fix/typo-in-readme
+
+<span class="cmd-comment"># 4. PR в оригинальный репозиторий</span>
+gh pr create --repo user/project</code></pre>
+
+  <h3>Вклад без кода — тоже вклад</h3>
+  <div class="cards">
+    <div class="card"><div class="card-ico">📝</div><h4>Документация</h4><p>Опечатки, переводы, недостающие примеры — самый частый первый PR.</p></div>
+    <div class="card"><div class="card-ico">🧪</div><h4>Тесты</h4><p>Повторить баг тестом — уже половина фикса.</p></div>
+    <div class="card"><div class="card-ico">🔍</div><h4>Триаж</h4><p>Воспроизводить чужие баг-репорты, уточнять шаги, наводить метки.</p></div>
+    <div class="card"><div class="card-ico">🎨</div><h4>Дизайн и UX</h4><p>Иконки, тексты интерфейса, макеты, юзабилити-замечания.</p></div>
+  </div>
+
+  <h3>Этикет контрибьютора</h3>
+  <ul>
+    <li>Сначала загляните в issues: возможно, проблема уже известна;</li>
+    <li>Крупные изменения — сначала issue-предложение и обсуждение, потом код;</li>
+    <li>Маленькие PR принимают быстрее больших;</li>
+    <li>Замечания ревью — не нападение: отвечайте спокойно и правьте;</li>
+    <li>Мейнтейнеры отвечают по вечерам — неделя ожидания это норма;</li>
+    <li>Бросаете работу — напишите в PR, не оставляйте его висеть молча.</li>
+  </ul>
+
+  <div class="callout tip"><div class="co-title">✅ Быстрый старт прямо в браузере</div>
+    <p>Наткнулись на опечатку в любом README? Нажмите карандаш в режиме просмотра файла — GitHub сам создаст форк, ветку и подготовит PR. Правка «в два клика» — идеальный первый вклад.</p>
+  </div>
+
+  <div class="page-nav">
+    <a href="#git-advanced"><span>← Назад</span>27. Продвинутый Git</a>
+    <a href="#cheatsheet" class="next">Дальше: шпаргалка команд <span>→ 29. Шпаргалка</span></a>
+  </div>
+</section>
+
+<!-- ======= 29. ШПАРГАЛКА ======= -->
 <section id="cheatsheet">
-  <h2 class="section-title"><span class="sec-num">24</span> Шпаргалка: все команды в одном месте</h2>
+  <h2 class="section-title"><span class="sec-num">29</span> Шпаргалка: все команды в одном месте</h2>
 
   <h3>Ежедневный минимум</h3>
   <pre><code>git status                  <span class="cmd-comment"># что изменилось</span>
@@ -1278,6 +1653,13 @@ git revert &lt;hash&gt;           <span class="cmd-comment"># отменить �
 git reset --hard origin/main  <span class="cmd-comment"># ⚠️ привести ветку к состоянию GitHub</span>
 git clean -fd               <span class="cmd-comment"># ⚠️ удалить untracked-файлы</span></code></pre>
 
+  <h3>Продвинутое</h3>
+  <pre><code>git cherry-pick &lt;hash&gt;       <span class="cmd-comment"># взять коммит из другой ветки</span>
+git bisect start             <span class="cmd-comment"># бинарный поиск сломавшего коммита</span>
+git worktree add ../fx fix   <span class="cmd-comment"># вторая ветка в отдельной папке</span>
+git reflog                   <span class="cmd-comment"># история перемещений HEAD (спасение!)</span>
+git stash list               <span class="cmd-comment"># что отложено в сторонке</span></code></pre>
+
   <h3>GitHub CLI</h3>
   <pre><code>gh repo clone user/repo     <span class="cmd-comment"># клонировать</span>
 gh pr create --fill         <span class="cmd-comment"># создать PR</span>
@@ -1293,14 +1675,14 @@ git config --global alias.lg "log --oneline --graph --all"</code></pre>
   </div>
 
   <div class="page-nav">
-    <a href="#api-webhooks"><span>← Назад</span>23. API и Webhooks</a>
-    <a href="#glossary" class="next">Дальше: глоссарий <span>→ 25. Глоссарий</span></a>
+    <a href="#opensource"><span>← Назад</span>28. Open Source</a>
+    <a href="#glossary" class="next">Дальше: глоссарий <span>→ 30. Глоссарий</span></a>
   </div>
 </section>
 
-<!-- ======= 25. ГЛОССАРИЙ ======= -->
+<!-- ======= 30. ГЛОССАРИЙ ======= -->
 <section id="glossary">
-  <h2 class="section-title"><span class="sec-num">25</span> Глоссарий</h2>
+  <h2 class="section-title"><span class="sec-num">30</span> Глоссарий</h2>
   <div class="table-wrap">
   <table>
     <tr><th>Термин</th><th>Объяснение</th></tr>
@@ -1336,7 +1718,7 @@ git config --global alias.lg "log --oneline --graph --all"</code></pre>
   </div>
 
   <div class="page-nav">
-    <a href="#api-webhooks"><span>← Назад</span>23. API и Webhooks</a>
+    <a href="#cheatsheet"><span>← Назад</span>29. Шпаргалка команд</a>
     <a href="#top" class="next"><span>↑ В начало</span>Учебник пройден!</a>
   </div>
 </section>
@@ -1344,11 +1726,20 @@ git config --global alias.lg "log --oneline --graph --all"</code></pre>
 </main>
 </div><!-- /layout -->
 
+<div class="continue-bar" id="continueBar" hidden>
+  <span>📖</span>
+  <span>Продолжить: <a href="#" id="continueLink"><span id="continueText"></span></a></span>
+  <button class="close" id="continueClose" aria-label="Скрыть">✕</button>
+</div>
+
+<button class="sec-chip" id="secChip" type="button" title="Текущий раздел — нажмите, чтобы перейти к его началу"></button>
+
 <button class="to-top" id="toTop" aria-label="Наверх">↑</button>
 
 <footer class="site-footer">
   <p>📚 <strong>Полный учебник по GitHub</strong> · собирается через GitHub Actions при каждом push в <code>main</code> · готовый сайт — в артефактах запуска</p>
   <p><a href="https://github.com/zigorminsk-debug/githab-books" target="_blank" rel="noopener">Исходный код учебника</a> · <a href="https://docs.github.com" target="_blank" rel="noopener">Официальная документация GitHub</a></p>
+  <p class="hotkeys-hint">Горячие клавиши: <kbd>J</kbd>/<kbd>K</kbd> — следующий/предыдущий раздел · <kbd>/</kbd> или <kbd>Ctrl</kbd>+<kbd>K</kbd> — поиск · <kbd>A+</kbd>/<kbd>A−</kbd> в шапке — размер шрифта</p>
 </footer>
 
 <script>
@@ -1402,15 +1793,38 @@ git config --global alias.lg "log --oneline --graph --all"</code></pre>
     }
   });
 
-  /* ---------- Scrollspy ---------- */
+  /* ---------- Scrollspy + чип текущего раздела ---------- */
   var tocLinks = Array.prototype.slice.call(document.querySelectorAll('#tocList a'));
   var sections = tocLinks.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  var chip = document.getElementById('secChip');
+  var lastIdx = 0;
   function spy() {
     var pos = window.scrollY + 120, idx = 0;
     for (var i = 0; i < sections.length; i++) {
       if (sections[i] && sections[i].offsetTop <= pos) idx = i;
     }
     tocLinks.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+    lastIdx = idx;
+    var det = tocLinks[idx] && tocLinks[idx].closest('details');
+    if (det && !det.open) det.open = true;
+    if (chip) {
+      if (window.scrollY > 500) {
+        chip.textContent = (idx + 1) + ' / ' + sections.length + ' · ' +
+          tocLinks[idx].textContent.replace(/^\s*\d+\.\s*/, '');
+        chip.classList.add('show');
+      } else {
+        chip.classList.remove('show');
+      }
+    }
+    if (idx > 0 && sections[idx]) {
+      try { localStorage.setItem('ghbook-last', sections[idx].id); } catch (e) {}
+    }
+  }
+  if (chip) {
+    chip.addEventListener('click', function () {
+      var el = sections[lastIdx];
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    });
   }
   window.addEventListener('scroll', spy, { passive: true });
   spy();
@@ -1443,7 +1857,7 @@ git config --global alias.lg "log --oneline --graph --all"</code></pre>
     var items = [];
     document.querySelectorAll('.content section').forEach(function (sec) {
       var h2 = sec.querySelector('.section-title');
-      var title = h2 ? h2.innerText.replace(/^\s*\d+\s*/, '').trim() : sec.id;
+      var title = h2 ? h2.innerText.replace(/^\s*\d+\s*/, '').replace(/🔗/g, '').trim() : sec.id;
       var text = sec.innerText.replace(/\s+/g, ' ').slice(0, 4000);
       items.push({ id: sec.id, title: title, text: text.toLowerCase() });
     });
@@ -1487,6 +1901,87 @@ git config --global alias.lg "log --oneline --graph --all"</code></pre>
       input.focus();
     }
     if (e.key === 'Escape') { results.classList.remove('open'); input.blur(); }
+  });
+
+  /* ---------- Навигация J/K и фокус поиска по "/" ---------- */
+  function goToSection(idx) {
+    var el = sections[Math.max(0, Math.min(sections.length - 1, idx))];
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      history.replaceState(null, '', '#' + el.id);
+    }
+  }
+  document.addEventListener('keydown', function (e) {
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.key === '/') { e.preventDefault(); input.focus(); return; }
+    if (e.key === 'j' || e.key === 'J') goToSection(lastIdx + 1);
+    if (e.key === 'k' || e.key === 'K') goToSection(lastIdx - 1);
+  });
+
+  /* ---------- Закрывать мобильное меню при переходе по ссылке ---------- */
+  document.getElementById('tocList').addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && window.innerWidth <= 900) sidebar.classList.remove('open');
+  });
+
+  /* ---------- Размер шрифта: A− / A / A+ ---------- */
+  var FS_KEY = 'ghbook-fs';
+  var FS_STEPS = ['0', '1', '2', '3', '4'];
+  var fMinus = document.getElementById('fontMinus');
+  var fReset = document.getElementById('fontReset');
+  var fPlus = document.getElementById('fontPlus');
+  function fsIndex() {
+    var i = FS_STEPS.indexOf(root.getAttribute('data-fs') || '1');
+    return i === -1 ? 1 : i;
+  }
+  function applyFs(i) {
+    i = Math.max(0, Math.min(FS_STEPS.length - 1, i));
+    root.setAttribute('data-fs', FS_STEPS[i]);
+    try { localStorage.setItem(FS_KEY, FS_STEPS[i]); } catch (err) {}
+    fMinus.disabled = (i === 0);
+    fPlus.disabled = (i === FS_STEPS.length - 1);
+  }
+  fMinus.addEventListener('click', function () { applyFs(fsIndex() - 1); });
+  fPlus.addEventListener('click', function () { applyFs(fsIndex() + 1); });
+  fReset.addEventListener('click', function () { applyFs(1); });
+  applyFs(fsIndex());
+
+  /* ---------- Якорные ссылки у заголовков разделов ---------- */
+  document.querySelectorAll('.content .section-title').forEach(function (h2) {
+    var sec = h2.closest('section');
+    if (!sec) return;
+    var a = document.createElement('a');
+    a.className = 'hlink';
+    a.href = '#' + sec.id;
+    a.title = 'Ссылка на раздел';
+    a.textContent = '🔗';
+    h2.appendChild(a);
+  });
+
+  /* ---------- «Продолжить чтение» ---------- */
+  var cbar = document.getElementById('continueBar');
+  var cLink = document.getElementById('continueLink');
+  var cText = document.getElementById('continueText');
+  var cClose = document.getElementById('continueClose');
+  var lastSectionId = null, dismissed = null;
+  try { lastSectionId = localStorage.getItem('ghbook-last'); } catch (err) {}
+  try { dismissed = sessionStorage.getItem('ghbook-dismissed'); } catch (err) {}
+  if (lastSectionId && lastSectionId !== dismissed) {
+    var sEl = document.getElementById(lastSectionId);
+    if (sEl) {
+      var tEl = sEl.querySelector('.section-title');
+      if (tEl) cText.textContent = tEl.textContent.replace(/^\s*\d+\s*/, '').replace(/🔗/g, '').trim();
+      cLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        sEl.scrollIntoView({ behavior: 'smooth' });
+        cbar.hidden = true;
+      });
+      setTimeout(function () { cbar.hidden = false; }, 900);
+    }
+  }
+  cClose.addEventListener('click', function () {
+    cbar.hidden = true;
+    try { sessionStorage.setItem('ghbook-dismissed', lastSectionId); } catch (err) {}
   });
 })();
 </script>

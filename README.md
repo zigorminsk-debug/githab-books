@@ -4,15 +4,29 @@
 
 ## О чём учебник
 
-25 разделов: от регистрации и основ Git до CI/CD:
+30 разделов: от регистрации и основ Git до CI/CD и Open Source:
 
 - Репозитории, ветки, коммиты, конфликты слияния
-- Pull Requests и code review
+- Pull Requests, **code review и CODEOWNERS**
 - Issues, Projects, Wiki, Discussions
-- **GitHub Actions** (CI/CD) и **GitHub Pages** (хостинг)
+- **GitHub Actions** (включая кэш, environments и self-hosted раннеры) и **GitHub Pages**
+- Releases, **GitHub Packages**, безопасность (Dependabot, secret scanning)
 - Codespaces, Copilot, GitHub CLI, Desktop
-- Безопасность (Dependabot, secret scanning), API, Webhooks
+- **Продвинутый Git**: cherry-pick, bisect, stash, worktree, reflog, submodules
+- **Open Source**: как сделать первый вклад
+- Профиль и организации, Markdown (GFM), API и Webhooks
 - Шпаргалка команд и глоссарий
+
+## Возможности страницы
+
+- 🅰 **Регулировка размера шрифта** — кнопки A− / A / A+ в шапке (5 ступеней, выбор сохраняется)
+- 🌓 Тёмная и светлая темы
+- 🔍 Живой поиск по разделам (`Ctrl+K` или `/`)
+- ⌨️ Горячие клавиши: `J`/`K` — следующий/предыдущий раздел
+- 📍 Чип текущего раздела, прогресс чтения, scrollspy-меню
+- 📖 Плашка «Продолжить чтение» — вернёт вас к месту, где вы остановились
+- 🗂 Сгруппированное меню, якорные ссылки на разделы
+- 📱 Адаптивная вёрстка для мобильных
 
 ## Сборка (GitHub Actions)
 
@@ -36,4 +50,4 @@ python3 -m http.server 8000
 
 ## Публикация на GitHub Pages (опционально)
 
-Если захотите читать учебник онлайн: **Settings → Pages → Build and deployment → Source: «GitHub Actions»**, после чего добавьте в workflow джобу деплоя (`actions/configure-pages` + `actions/upload-pages-artifact` + `actions/deploy-pages`) — готовый пример есть в разделе 13 учебника.
+Если захотите читать учебник онлайн: **Settings → Pages → Build and deployment → Source: «GitHub Actions»**, после чего добавьте в workflow джобу деплоя (`actions/configure-pages` + `actions/upload-pages-artifact` + `actions/deploy-pages`) — готовый пример есть в разделе 15 учебника.
