@@ -1,0 +1,56 @@
+name: Deploy GitHub Tutorial to Pages
+
+on:
+  # Сборка и деплой при каждом изменении в main
+  push:
+    branches: [main]
+  # Проверка сборки для pull request'ов (без деплоя)
+  pull_request:
+    branches: [main]
+  # Кнопка Run workflow на странице Actions
+  workflow_dispatch:
+
+# Права, необходимые actions/deploy-pages для публикации на GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Не запускать параллельные сборки: новая отменяет предыдущую
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Сборка сайта
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Настройка Pages
+        uses: actions/configure-pages@v5
+
+      - name: Проверка наличия index.html
+        run: |
+          test -f index.html || { echo "::error::index.html не найден"; exit 1; }
+          echo "Сборка: $(ls -la)"
+
+      - name: Загрузка артефакта сайта
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    name: Деплой на GitHub Pages
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Публикация
+        id: deployment
+        uses: actions/deploy-pages@v4
