@@ -29,8 +29,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Настройка Pages
+      - name: Настройка Pages (включает Pages, если ещё не включён)
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Проверка наличия index.html
         run: |
