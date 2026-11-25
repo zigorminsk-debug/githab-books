@@ -1,0 +1,45 @@
+name: Build GitHub Tutorial
+
+on:
+  # Сборка сразу после каждого изменения в main
+  push:
+    branches: [main]
+  # Проверка сборки для pull request'ов
+  pull_request:
+    branches: [main]
+  # Кнопка Run workflow на странице Actions
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Новая сборка отменяет устаревшую
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Сборка и проверка сайта
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Проверка целостности страницы
+        run: |
+          test -f index.html || { echo "::error::index.html не найден"; exit 1; }
+          test -f styles.css || { echo "::error::styles.css не найден"; exit 1; }
+          grep -q '</html>' index.html || { echo "::error::HTML обрезан — нет закрывающего </html>"; exit 1; }
+          grep -q 'styles.css' index.html || { echo "::error::index.html не подключает styles.css"; exit 1; }
+          echo "✅ Страница целая: $(wc -c < index.html) байт HTML, $(wc -c < styles.css) байт CSS"
+
+      - name: Архивация сайта в артефакт
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: |
+            index.html
+            styles.css
+          retention-days: 30
+          if-no-files-found: error
