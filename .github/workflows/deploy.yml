@@ -53,6 +53,30 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Проверка, что Pages включён
+        id: check_pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh api "repos/${{ github.repository }}/pages" --jq '.build_type' 2>/dev/null | grep -q "workflow"; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+            echo "✅ Pages включён (build_type=workflow) — деплоим"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "⏭️  Pages ещё не включён. Включите один раз:"
+            echo "    Settings → Pages → Build and deployment → Source: GitHub Actions"
+            echo "    Затем перезапустите этот workflow (Actions → Deploy → Run workflow)."
+          fi
+
       - name: Публикация
         id: deployment
+        if: steps.check_pages.outputs.ready == 'true'
         uses: actions/deploy-pages@v4
+
+      - name: Итог
+        run: |
+          if [ "${{ steps.check_pages.outputs.ready }}" = "true" ]; then
+            echo "🚀 Сайт опубликован: ${{ steps.deployment.outputs.page_url }}"
+          else
+            echo "📖 Сборка успешна, но для публикации включите Pages (см. сообщение выше)"
+          fi
