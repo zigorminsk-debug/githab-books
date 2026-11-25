@@ -2,8 +2,6 @@
 
 Полноценный учебник по работе с **GitHub и всеми его инструментами**, свёрстанный в виде HTML-страницы.
 
-🔗 **Читать онлайн:** https://zigorminsk-debug.github.io/githab-books/
-
 ## О чём учебник
 
 25 разделов: от регистрации и основ Git до CI/CD:
@@ -16,14 +14,16 @@
 - Безопасность (Dependabot, secret scanning), API, Webhooks
 - Шпаргалка команд и глоссарий
 
-## Сборка и деплой
+## Сборка (GitHub Actions)
 
-Сайт публикуется автоматически средствами **GitHub Actions** при каждом изменении:
+Сборка запускается **автоматически сразу после внесения изменений**:
 
-- **push в `main`** → сборка + деплой на GitHub Pages
-- **pull request в `main`** → проверка сборки (без деплоя)
+- **push в `main`** → сборка и проверка сайта
+- **pull request в `main`** → проверка сборки до слияния
 
-Workflow: [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
+Workflow: [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
+
+Результат каждого запуска — артефакт **`site`** (готовый к публикации сайт), который можно скачать со страницы запуска: **Actions → нужный запуск → Artifacts → site**.
 
 ## Локальный запуск
 
@@ -33,3 +33,7 @@ Workflow: [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
 python3 -m http.server 8000
 # http://localhost:8000
 ```
+
+## Публикация на GitHub Pages (опционально)
+
+Если захотите читать учебник онлайн: **Settings → Pages → Build and deployment → Source: «GitHub Actions»**, после чего добавьте в workflow джобу деплоя (`actions/configure-pages` + `actions/upload-pages-artifact` + `actions/deploy-pages`) — готовый пример есть в разделе 13 учебника.

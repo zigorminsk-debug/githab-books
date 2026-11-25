@@ -75,7 +75,7 @@
   <div class="hero-badges">
     <span class="badge blue">25 разделов</span>
     <span class="badge purple">От новичка до продвинутого</span>
-    <span class="badge green">Обновляется автоматически через Actions</span>
+    <span class="badge green">Собирается автоматически через Actions</span>
   </div>
   <h1 class="page-title">Полный учебник по GitHub</h1>
   <p class="page-subtitle">Всё, что нужно знать о работе с GitHub и его инструментами: от регистрации и первых коммитов до CI/CD, GitHub Pages, Codespaces и Copilot. Эта страница сама живёт на GitHub Pages и пересобирается средствами GitHub&nbsp;Actions при каждом изменении кода.</p>
@@ -577,7 +577,7 @@ gh pr merge 12 --squash --delete-branch
 gh pr checks 12</code></pre>
 
   <div class="callout note"><div class="co-title">💡 На этом сайте</div>
-    <p>Этот учебник живёт именно по такому циклу: изменения в ветке → PR → GitHub Actions собирает и деплоит сайт. Загляните во вкладки Pull requests и Actions нашего репозитория.</p>
+    <p>Этот учебник разрабатывается именно по такому циклу: изменения в ветке → PR → GitHub Actions собирает сайт и проверяет сборку. Загляните во вкладки Pull requests и Actions нашего репозитория.</p>
   </div>
 
   <div class="page-nav">
@@ -788,7 +788,7 @@ jobs:
 <section id="pages">
   <h2 class="section-title"><span class="sec-num">13</span> GitHub Pages: бесплатный хостинг сайтов</h2>
 
-  <p><strong>GitHub Pages</strong> публикует статические файлы (HTML, CSS, JS) прямо из репозитория. Этот самый учебник работает на Pages.</p>
+  <p><strong>GitHub Pages</strong> публикует статические файлы (HTML, CSS, JS) прямо из репозитория — бесплатно и без своего сервера. Так можно опубликовать сайт-визитку, документацию проекта или, например, страницу этого учебника.</p>
 
   <h3>Три типа сайтов</h3>
   <div class="table-wrap">
@@ -807,7 +807,7 @@ jobs:
   </ol>
 
   <h3>Стандартный workflow деплоя на Pages</h3>
-  <pre><code><span class="cmd-comment"># .github/workflows/deploy.yml — именно так деплоится этот учебник</span>
+  <pre><code><span class="cmd-comment"># .github/workflows/pages.yml — классическая схема деплоя статического сайта</span>
 name: Deploy to GitHub Pages
 
 on:
@@ -1347,7 +1347,7 @@ git config --global alias.lg "log --oneline --graph --all"</code></pre>
 <button class="to-top" id="toTop" aria-label="Наверх">↑</button>
 
 <footer class="site-footer">
-  <p>📚 <strong>Полный учебник по GitHub</strong> · живёт на GitHub Pages · пересобирается через GitHub Actions при каждом push в <code>main</code></p>
+  <p>📚 <strong>Полный учебник по GitHub</strong> · собирается через GitHub Actions при каждом push в <code>main</code> · готовый сайт — в артефактах запуска</p>
   <p><a href="https://github.com/zigorminsk-debug/githab-books" target="_blank" rel="noopener">Исходный код учебника</a> · <a href="https://docs.github.com" target="_blank" rel="noopener">Официальная документация GitHub</a></p>
 </footer>
 
